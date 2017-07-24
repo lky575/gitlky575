@@ -46,8 +46,20 @@ public class HttpURLConnector extends Thread{
         StringBuilder sb = new StringBuilder();
         try {
             int res_code = conn.getResponseCode();
-            if (res_code == HttpURLConnection.HTTP_OK || res_code == 422) {
+            if (res_code == HttpURLConnection.HTTP_OK) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = null;
+                while (true) {
+                    line = reader.readLine();
+                    if (line == null)
+                        break;
+                    sb.append(line + "\n");
+                }
+                reader.close();
+            }
+
+            if (res_code == 422) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                 String line = null;
                 while (true) {
                     line = reader.readLine();

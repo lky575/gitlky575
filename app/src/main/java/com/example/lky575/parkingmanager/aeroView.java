@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 
 public class aeroView extends AppCompatActivity {
 
-    WebView aeroView;
+    private WebView aeroView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

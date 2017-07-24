@@ -1,6 +1,5 @@
 package com.example.lky575.parkingmanager;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +12,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView currentText, totalText;
-    SharedPreferences pref;
-    static ProgressDialog waitDialog;
+    private TextView currentText, totalText;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         currentText = (TextView) findViewById(R.id.currentText);
         totalText = (TextView) findViewById(R.id.totalText);
-
-        waitDialog = new ProgressDialog(this);
 
         pref = getSharedPreferences("sign", Context.MODE_PRIVATE);
         boolean hasVisited = pref.getBoolean("hasVisited",false);

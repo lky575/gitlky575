@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 public class Config extends AppCompatActivity {
 
-    SharedPreferences pref;
-    TextView numberText, setNumberText;
+    private SharedPreferences pref;
+    private TextView numberText, setNumberText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

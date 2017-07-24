@@ -1,13 +1,13 @@
 package com.example.lky575.parkingmanager;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,10 +15,10 @@ import java.util.StringTokenizer;
 
 public class CalculateFare extends AppCompatActivity {
 
-    EditText edtCarNumber, edtStartHour, edtStartMinute, edtEndHour, edtEndMinute;
-    TextView fareText;
-    int startHour, startMinute, endHour, endMinute;
-    ProgressDialog waitDialog;
+    private EditText edtCarNumber, edtStartHour, edtStartMinute, edtEndHour, edtEndMinute;
+    private TextView fareText;
+    private int startHour, startMinute, endHour, endMinute;
+    private ProgressDialogTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +32,18 @@ public class CalculateFare extends AppCompatActivity {
         edtEndMinute = (EditText) findViewById(R.id.EdtendMinute);
         fareText = (TextView) findViewById(R.id.Fare);
 
-        waitDialog = new ProgressDialog(CalculateFare.this);
-        waitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        task = new ProgressDialogTask(CalculateFare.this);
 
         SharedPreferences pref = getSharedPreferences("sign", Activity.MODE_PRIVATE);
         String carNumber = pref.getString("CarNumber","");
 
         edtCarNumber.setText(carNumber);
         if(!carNumber.equals("")){
+            task.execute();
             HttpURLConnector conn = new HttpURLConnector(carNumber);
             conn.start();
             try{
-                waitDialog.setMessage("잠시만 기다려주세요.");
-                waitDialog.show();
                 conn.join();
-                waitDialog.dismiss();
             } catch(InterruptedException e){
                 e.printStackTrace();
             }
@@ -55,40 +52,47 @@ public class CalculateFare extends AppCompatActivity {
             parser.parser();
             int started_at = parser.getStarted_at();
             getTime(started_at);
+            task.setFinish();
         }
 
         Calendar now = Calendar.getInstance();
-        int endHour = now.get(Calendar.HOUR_OF_DAY);
-        int endMinute = now.get(Calendar.MINUTE);
+        endHour = now.get(Calendar.HOUR_OF_DAY);
+        endMinute = now.get(Calendar.MINUTE);
         edtEndHour.setText(String.valueOf(endHour));
         edtEndMinute.setText(String.valueOf(endMinute));
     }
 
     public void onsearchButtonClicked(View v){
         HttpURLConnector conn = new HttpURLConnector(edtCarNumber.getText().toString());
+        task.execute();
         conn.start();
         try{
-            waitDialog.setMessage("잠시만 기다려주세요.");
-            waitDialog.show();
             conn.join();
-            waitDialog.dismiss();
-        } catch(InterruptedException e){
-            e.printStackTrace();
-        }
+        } catch(InterruptedException e){}
         String dbResult = conn.getResult();
         JSONParser parser = new JSONParser(dbResult);
         parser.parser();
         int started_at = parser.getStarted_at();
         getTime(started_at);
+        task.setFinish();
     }
 
     public void oncalculateButtonClicked(View v){
         int gap_H = endHour - startHour;
         int gap_M = endMinute - startMinute;
-        if(gap_M >= 30)
-            gap_H++;
-        int fare = gap_H * 2000;
-        fareText.setText("주차 요금 : " + fare + "원.");
+        if(gap_H < 0){
+            Toast.makeText(getApplicationContext(),"시간을 잘못 입력 하셨습니다.",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if (gap_M < 0) {
+                gap_H--;
+                gap_M += 60;
+            }
+            if (gap_M >= 30)
+                gap_H++;
+            int fare = gap_H * 2000;
+            fareText.setText("요금 : " + fare + "원.");
+        }
     }
 
     public void onbackButtonClicked(View v){
