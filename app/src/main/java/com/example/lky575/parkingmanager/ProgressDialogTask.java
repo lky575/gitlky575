@@ -3,7 +3,6 @@ package com.example.lky575.parkingmanager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 /**
  * Created by lky575 on 2017-07-24.
@@ -36,11 +35,10 @@ public class ProgressDialogTask extends AsyncTask<Void,Void,Void> {
     }
 
     @Override
-    protected synchronized Void doInBackground(Void... params) {
+    protected Void doInBackground(Void... params) {
         while(!finish){
             try{
-                Thread.sleep(10);
-                Log.d("conn","sleep");
+                Thread.sleep(100);
             }catch(InterruptedException e){}
         }
         return null;

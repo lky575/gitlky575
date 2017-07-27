@@ -3,6 +3,7 @@
     package="com.example.lky575.parkingmanager">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -11,19 +12,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Config" />
-        <activity android:name=".aeroView" />
+        <activity android:name=".Config"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".aeroView"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MyCarPosition"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".CalculateFare"></activity>
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CalculateFare"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MyLogActivity"
+            android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".MyParkingService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView currentText, totalText;
     private SharedPreferences pref;
+    private static boolean onService = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("hasVisited",true);
             editor.commit();
         }
+
+        // 로그 찍는 서비스 실행 수정 필요
+//        if(!pref.getString("CarNumber","").equals("")){
+//            if(!onService) {
+//                onService = true;
+//                Intent intent = new Intent(getApplicationContext(), MyParkingService.class);
+//                startService(intent);
+//            }
+//        }
     }
 
     public void onParkingButtonClicked(View v){ // 조감도 버튼

@@ -19,6 +19,7 @@ public class CalculateFare extends AppCompatActivity {
     private TextView fareText;
     private int startHour, startMinute, endHour, endMinute;
     private ProgressDialogTask task;
+    private HttpURLConnector conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +33,14 @@ public class CalculateFare extends AppCompatActivity {
         edtEndMinute = (EditText) findViewById(R.id.EdtendMinute);
         fareText = (TextView) findViewById(R.id.Fare);
 
-        task = new ProgressDialogTask(CalculateFare.this);
-
         SharedPreferences pref = getSharedPreferences("sign", Activity.MODE_PRIVATE);
         String carNumber = pref.getString("CarNumber","");
 
         edtCarNumber.setText(carNumber);
         if(!carNumber.equals("")){
+            task = new ProgressDialogTask(CalculateFare.this);
             task.execute();
-            HttpURLConnector conn = new HttpURLConnector(carNumber);
+            conn = new HttpURLConnector(carNumber);
             conn.start();
             try{
                 conn.join();
@@ -56,15 +56,14 @@ public class CalculateFare extends AppCompatActivity {
         }
 
         Calendar now = Calendar.getInstance();
-        endHour = now.get(Calendar.HOUR_OF_DAY);
-        endMinute = now.get(Calendar.MINUTE);
-        edtEndHour.setText(String.valueOf(endHour));
-        edtEndMinute.setText(String.valueOf(endMinute));
+        edtEndHour.setText(String.valueOf(now.get(Calendar.HOUR_OF_DAY)));
+        edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
     }
 
     public void onsearchButtonClicked(View v){
-        HttpURLConnector conn = new HttpURLConnector(edtCarNumber.getText().toString());
+        task = new ProgressDialogTask(CalculateFare.this);
         task.execute();
+        conn = new HttpURLConnector(edtCarNumber.getText().toString());
         conn.start();
         try{
             conn.join();
@@ -72,26 +71,50 @@ public class CalculateFare extends AppCompatActivity {
         String dbResult = conn.getResult();
         JSONParser parser = new JSONParser(dbResult);
         parser.parser();
-        int started_at = parser.getStarted_at();
-        getTime(started_at);
+        if(parser.isCarNumbering()){
+            int started_at = parser.getStarted_at();
+            getTime(started_at);
+        }
+        else{
+            int errorCode = parser.getErrorCode();
+            String message = parser.getMessage();
+
+            Toast.makeText(getApplication(),"에러코드 : " + errorCode + "\n" + message,Toast.LENGTH_LONG).show();
+        }
+
+        Calendar now = Calendar.getInstance();
+        edtEndHour.setText(String.valueOf(now.get(Calendar.HOUR_OF_DAY)));
+        edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
+
         task.setFinish();
     }
 
     public void oncalculateButtonClicked(View v){
-        int gap_H = endHour - startHour;
-        int gap_M = endMinute - startMinute;
-        if(gap_H < 0){
+        startHour = Integer.parseInt(edtStartHour.getText().toString());
+        startMinute = Integer.parseInt(edtStartMinute.getText().toString());
+        endHour = Integer.parseInt(edtEndHour.getText().toString());
+        endMinute = Integer.parseInt(edtEndMinute.getText().toString());
+        if(startHour >= 24 || endHour >= 24){
             Toast.makeText(getApplicationContext(),"시간을 잘못 입력 하셨습니다.",Toast.LENGTH_SHORT).show();
         }
+        else if(startMinute >= 60 || endMinute >= 60){
+            Toast.makeText(getApplicationContext(),"분을 잘못 입력 하셨습니다.",Toast.LENGTH_SHORT).show();
+        }
         else {
-            if (gap_M < 0) {
-                gap_H--;
-                gap_M += 60;
+            int gap_H = endHour - startHour;
+            int gap_M = endMinute - startMinute;
+            if (gap_H < 0) {
+                Toast.makeText(getApplicationContext(), "시간을 잘못 입력 하셨습니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                if (gap_M < 0) {
+                    gap_H--;
+                    gap_M += 60;
+                }
+                if (gap_M >= 30)
+                    gap_H++;
+                int fare = gap_H * 2000;
+                fareText.setText("요금 : " + fare + "원");
             }
-            if (gap_M >= 30)
-                gap_H++;
-            int fare = gap_H * 2000;
-            fareText.setText("요금 : " + fare + "원.");
         }
     }
 
@@ -106,7 +129,5 @@ public class CalculateFare extends AppCompatActivity {
         StringTokenizer tokenizer = new StringTokenizer(date,":");
         edtStartHour.setText(tokenizer.nextToken());
         edtStartMinute.setText(tokenizer.nextToken());
-        startHour = Integer.parseInt(edtStartHour.getText().toString());
-        startMinute = Integer.parseInt(edtStartMinute.getText().toString());
     }
 }

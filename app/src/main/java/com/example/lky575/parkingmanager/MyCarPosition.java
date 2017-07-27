@@ -30,12 +30,11 @@ public class MyCarPosition extends AppCompatActivity {
         ProgressDialogTask task = new ProgressDialogTask(MyCarPosition.this);
         task.execute();
         String number = numberText.getText().toString();
-        String url = "http://13.124.74.249:3000/cars/";
-        conn = new HttpURLConnector(number); //88%ED%97%881234
+        conn = new HttpURLConnector(number);
         conn.start();
         try{
             conn.join();
-        } catch(InterruptedException e){};
+        } catch(InterruptedException e){}
         String dbResult = conn.getResult();
         JSONParser parser = new JSONParser(dbResult);
         parser.parser();
