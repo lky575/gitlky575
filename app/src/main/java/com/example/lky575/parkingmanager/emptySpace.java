@@ -18,7 +18,7 @@ public class emptySpace extends Thread {
     }
 
     public void run(){
-        while(true) {
+        while(!MainActivity.onEmptyThread) {
             //conn = new HttpURLConnector("여석 url");
             //String emptyStr = conn.connect();
             //JSONParser parser = new JSONParser(emptyStr);

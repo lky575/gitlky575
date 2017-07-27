@@ -57,7 +57,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="16dp"
-        android:text="전체 : "
+        android:text="전체 : 16"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.456"

@@ -13,6 +13,7 @@ public class MyParkingService extends Service {
     private String carNumber;
     private HttpURLConnector conn;
     private boolean isParking;
+    private int currentNO = 0;
 
 
     public MyParkingService() {
@@ -51,8 +52,13 @@ public class MyParkingService extends Service {
                     SimpleDateFormat formatter = new SimpleDateFormat(pattern);
                     String date = formatter.format(start_at);
                     ParkingLog parkingLog = new ParkingLog(getApplicationContext(),"PARKING_LOG",null,1);
-                    parkingLog.execQuery("insert into PARKING_LOG values (null," + date + ",null);");
-                    isParking = true;
+                    String recentLog = parkingLog.getStarted_at("select start_at from PARKING_LOG where no = " + currentNO + ";");
+                    if(!recentLog.equals(date)) {
+                        parkingLog.execQuery("insert into PARKING_LOG values (null," + date + ",null);");
+                        currentNO = parkingLog.getNO("select no from PARKING_LOG where start_at = " + date + ";");
+
+                        isParking = true;
+                    }
                 }
                 try{
                     Thread.sleep(10000);
@@ -69,6 +75,12 @@ public class MyParkingService extends Service {
                 parser.parser();
                 if (!parser.isCarNumbering()) {
                     // 출차시간 로그 찍기
+                    int end_at = parser.getStarted_at(); // getEnd_at() 메소드 구현후 수정 필요
+                    String pattern = "HHmmss";
+                    SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+                    String date = formatter.format(end_at);
+                    ParkingLog parkingLog = new ParkingLog(getApplicationContext(),"PARKING_LOG",null,1);
+                    parkingLog.execQuery("update PARKING_LOG set end_at = " + end_at + "where no = " + currentNO + ";");
                     isParking = false;
                 }
                 try{

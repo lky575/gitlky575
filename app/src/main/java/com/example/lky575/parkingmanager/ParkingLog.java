@@ -33,6 +33,20 @@ public class ParkingLog extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    public int getNO(String query){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    public String getStarted_at(String query){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        cursor.moveToNext();
+        return cursor.getString(0);
+    }
+
     //사용 안할 예정
 /*    public String getAvgTime(){
         SQLiteDatabase db = getReadableDatabase();

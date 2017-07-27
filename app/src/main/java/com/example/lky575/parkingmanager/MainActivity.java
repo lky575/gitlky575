@@ -15,6 +15,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView currentText, totalText;
     private SharedPreferences pref;
     private static boolean onService = false;
+    protected static boolean onEmptyThread = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        onEmptyThread = true;
+        new emptySpace(currentText).start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("sign", Context.MODE_PRIVATE);
         boolean hasVisited = pref.getBoolean("hasVisited",false);
         if(!hasVisited){
+            onEmptyThread = false;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("환영합니다.");
             builder.setMessage("차량을 등록하시겠습니까?");
@@ -62,22 +72,28 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
+
+
     public void onParkingButtonClicked(View v){ // 조감도 버튼
+        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),aeroView.class);
         startActivity(intent);
     }
 
     public void onSearchButtonClicked(View v){ // 내 차 위치 찾기 버튼
+        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),MyCarPosition.class);
         startActivity(intent);
     }
 
     public void onChargeButtonClicked(View v){ // 주차요금 버튼
+        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),CalculateFare.class);
         startActivity(intent);
     }
 
     public void onConfigButtonClicked(View v){ // 내 차 정보 버튼
+        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(), Config.class);
         startActivity(intent);
     }
