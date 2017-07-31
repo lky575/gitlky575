@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 /**
  * Created by lky575 on 2017-07-26.
  */
@@ -19,8 +22,7 @@ public class ParkingLog extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // void execSQL(String sql) : SELECT 명령을 제외한 모든 SQL 문장을 실행한다.
-        db.execSQL("CREATE TABLE PARKING_LOG(no INTEGER PRIMARY KEY AUTOINCREMENT, start_at TEXT, end_at TEXT);");
-    }
+        db.execSQL("CREATE TABLE PARKING_LOG(no INTEGER PRIMARY KEY AUTOINCREMENT, car_number TEXT, start_at TEXT, end_at TEXT);");    }
 
     // onUpgrade() 메소드는 데이터베이스는 존재하지만 버전이 다른경우 호출된다.
     @Override
@@ -28,65 +30,35 @@ public class ParkingLog extends SQLiteOpenHelper {
 
     }
 
-    public void execQuery(String query){
+    public void setLog(ArrayList<Integer> entered_array,ArrayList<Integer> ended_array, String car_number){
+        SQLiteDatabase db = getWritableDatabase();
+        for(int i = 0 ; i < entered_array.size(); i++){
+            String pattern = "yyyy-MM-dd HH:mm";
+            SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+            String entered_date = formatter.format(entered_array.get(i));
+            String ended_date = formatter.format(ended_array.get(i));
+
+            db.execSQL("insert into PARKING_LOG values(null, " + car_number + ", "
+                    + entered_date + ", " + ended_date + ");");
+
+            // (null, '88허1234', '2017-06-11 11:33', '2017-06-11 12:33');
+        }
+    }
+
+    public Cursor getLog(String car_number){
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("select * from PARKING_LOG where car_number = " + car_number + ";", null);
+    }
+
+    public void execQuery(String query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
     }
 
-    public int getNO(String query){
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-        cursor.moveToNext();
-        return cursor.getInt(0);
-    }
 
-    public String getStarted_at(String query){
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-        cursor.moveToNext();
-        return cursor.getString(0);
-    }
 
-    //사용 안할 예정
-/*    public String getAvgTime(){
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<String> start_at = new ArrayList<>();
-        ArrayList<String> end_at = new ArrayList<>();
-
-        int sumTime = 0;
-        int count;
-
-        Cursor cursor = db.rawQuery("select * from PARKING_LOG", null);
-        while(cursor.moveToNext()){
-            start_at.add(cursor.getString(1));
-            end_at.add(cursor.getString(2));
-        }
-
-        count = start_at.size();
-
-        for(int i = 0 ; i < count; i++){
-            StringTokenizer start_token = new StringTokenizer(start_at.get(i));
-            StringTokenizer end_token = new StringTokenizer(end_at.get(i));
-
-            int start_H = Integer.parseInt(start_token.nextToken());
-            int end_H = Integer.parseInt(end_token.nextToken());
-            int start_M = Integer.parseInt(start_token.nextToken());
-            int end_M = Integer.parseInt(end_token.nextToken());
-
-            int gap_H = end_H - start_H;
-            int gap_M = end_M - start_M;
-            if(gap_M < 0){
-                gap_H--;
-                gap_M += 60;
-            }
-            sumTime += (gap_H * 60) + gap_M;
-        }
-
-        int avgTime = sumTime / count;
-        return (avgTime / 60) + "시간 " + (avgTime % 60) + "분";
-    }*/
-
-    public String PrintData() {
+    // 리스트뷰 형식으로 전환
+/*    public String PrintData() {
         SQLiteDatabase db = getReadableDatabase();
         String dbData = "";
         // Cursor rawQuery(String sql, String[] selectionArgs) : SELECT 쿼리를 실행할때 사용한다.
@@ -101,7 +73,7 @@ public class ParkingLog extends SQLiteOpenHelper {
         }
 
         return dbData;
-    }
+    }*/
 
 
 }

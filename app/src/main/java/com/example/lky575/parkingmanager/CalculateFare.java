@@ -40,7 +40,7 @@ public class CalculateFare extends AppCompatActivity {
         if(!carNumber.equals("")){
             task = new ProgressDialogTask(CalculateFare.this);
             task.execute();
-            conn = new HttpURLConnector(carNumber);
+            conn = new HttpURLConnector("cars/" + carNumber);
             conn.start();
             try{
                 conn.join();
@@ -63,7 +63,7 @@ public class CalculateFare extends AppCompatActivity {
     public void onsearchButtonClicked(View v){
         task = new ProgressDialogTask(CalculateFare.this);
         task.execute();
-        conn = new HttpURLConnector(edtCarNumber.getText().toString());
+        conn = new HttpURLConnector("cars/" + edtCarNumber.getText().toString());
         conn.start();
         try{
             conn.join();
@@ -124,8 +124,9 @@ public class CalculateFare extends AppCompatActivity {
 
     public void getTime(int millisec){
         String pattern = "HH:mm";
+        long millisec_l = (long) millisec * 1000L;
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        String date = formatter.format(millisec);
+        String date = formatter.format(millisec_l);
         StringTokenizer tokenizer = new StringTokenizer(date,":");
         edtStartHour.setText(tokenizer.nextToken());
         edtStartMinute.setText(tokenizer.nextToken());

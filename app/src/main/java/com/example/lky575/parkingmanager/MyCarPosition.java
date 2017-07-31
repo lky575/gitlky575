@@ -30,7 +30,7 @@ public class MyCarPosition extends AppCompatActivity {
         ProgressDialogTask task = new ProgressDialogTask(MyCarPosition.this);
         task.execute();
         String number = numberText.getText().toString();
-        conn = new HttpURLConnector(number);
+        conn = new HttpURLConnector("cars/" + number);
         conn.start();
         try{
             conn.join();

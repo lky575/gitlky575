@@ -26,7 +26,7 @@ public class HttpURLConnector extends Thread{
     public void run(){
         try {
             String encode_url = URLEncoder.encode(url_str,"utf-8");
-            URL url = new URL("http://13.124.74.249:3000/cars/" + encode_url);
+            URL url = new URL("http://13.124.74.249:3000/" + encode_url);
 
             conn = (HttpURLConnection) url.openConnection();
 

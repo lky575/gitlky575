@@ -17,14 +17,14 @@ public class aeroView extends AppCompatActivity {
 
         aeroView = (WebView) findViewById(R.id.aeroView);
         aeroView.setWebViewClient(new WebViewClient());
-        aeroView.loadUrl("https://www.naver.com/");
+        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/1");
     }
 
     public void onfloor1ButtonClicked(View v){
-        aeroView.loadUrl("https://www.naver.com/");
+        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/1");
     }
     public void onfloor2ButtonClicked(View v){
-        aeroView.loadUrl("https://www.google.co.kr/");
+        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/2");
     }
     public void onbackButtonClicked(View v){
         finish();

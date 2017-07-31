@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView currentText, totalText;
+    private TextView currentText;
     private SharedPreferences pref;
-    private static boolean onService = false;
     protected static boolean onEmptyThread = false;
 
     @Override
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         currentText = (TextView) findViewById(R.id.currentText);
-        totalText = (TextView) findViewById(R.id.totalText);
 
         pref = getSharedPreferences("sign", Context.MODE_PRIVATE);
         boolean hasVisited = pref.getBoolean("hasVisited",false);
@@ -61,15 +59,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("hasVisited",true);
             editor.commit();
         }
-
-        // 로그 찍는 서비스 실행 수정 필요
-//        if(!pref.getString("CarNumber","").equals("")){
-//            if(!onService) {
-//                onService = true;
-//                Intent intent = new Intent(getApplicationContext(), MyParkingService.class);
-//                startService(intent);
-//            }
-//        }
     }
 
 

@@ -8,6 +8,16 @@ import android.os.IBinder;
 
 import java.text.SimpleDateFormat;
 
+
+// 사용 안함
+// 사용 안함
+// 사용 안함
+// 사용 안함
+
+
+
+
+
 public class MyParkingService extends Service {
     private SharedPreferences pref;
     private String carNumber;

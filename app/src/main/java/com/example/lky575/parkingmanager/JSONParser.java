@@ -1,7 +1,12 @@
 package com.example.lky575.parkingmanager;
 
+import android.content.SharedPreferences;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by lky575 on 2017-07-06.
@@ -19,6 +24,9 @@ public class JSONParser {
     private String message;
     private boolean isCarNumbering;
 
+    private ArrayList<Integer> entered_array;
+    private ArrayList<Integer> exited_array;
+
     public JSONParser(String dbStr){
         this.dbStr = dbStr;
         numbering = null;
@@ -31,6 +39,9 @@ public class JSONParser {
         errorCode = 0;
         message = null;
         isCarNumbering = false;
+
+        entered_array = new ArrayList<>();
+        exited_array = new ArrayList<>();
     }
 
     public void parser(){
@@ -57,6 +68,24 @@ public class JSONParser {
         } catch(JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void parser_array(SharedPreferences pref){
+        int last_index = pref.getInt("last_index",0);
+        try{
+            JSONObject json = new JSONObject(dbStr);
+            JSONArray jsonArray = json.getJSONArray("entering_logs");
+            for(int i = last_index ; i < jsonArray.length(); i++){
+                JSONObject result = jsonArray.getJSONObject(i);
+                entered_array.add(result.getInt("entered_at"));
+                exited_array.add(result.getInt("exited_at"));
+                last_index++;
+            }
+        } catch(JSONException e){}
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("last_index",last_index);
+        editor.commit();
     }
 
     public int getEmpty_space() { return empty_space; }
@@ -86,4 +115,8 @@ public class JSONParser {
     public int getErrorCode() { return errorCode; }
 
     public boolean isCarNumbering() { return isCarNumbering; }
+
+    public ArrayList<Integer> getEntered_array(){ return entered_array; }
+
+    public ArrayList<Integer> getExited_array(){ return exited_array; }
 }

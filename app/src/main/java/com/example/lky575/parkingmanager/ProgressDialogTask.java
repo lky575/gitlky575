@@ -10,13 +10,10 @@ import android.os.AsyncTask;
 
 public class ProgressDialogTask extends AsyncTask<Void,Void,Void> {
     private ProgressDialog waitDialog;
-    private Context context;
     private boolean finish;
 
     public ProgressDialogTask(Context context){
-        this.context = context;
         finish = false;
-
         waitDialog = new ProgressDialog(context);
         waitDialog.setMessage("잠시만 기다려 주세요");
         waitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
