@@ -24,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        onEmptyThread = false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,25 +69,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onParkingButtonClicked(View v){ // 조감도 버튼
-        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),aeroView.class);
         startActivity(intent);
     }
 
     public void onSearchButtonClicked(View v){ // 내 차 위치 찾기 버튼
-        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),MyCarPosition.class);
         startActivity(intent);
     }
 
     public void onChargeButtonClicked(View v){ // 주차요금 버튼
-        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(),CalculateFare.class);
         startActivity(intent);
     }
 
     public void onConfigButtonClicked(View v){ // 내 차 정보 버튼
-        onEmptyThread = false;
         Intent intent = new Intent(getApplicationContext(), Config.class);
         startActivity(intent);
     }
