@@ -12,23 +12,29 @@ public class emptySpace extends Thread {
     private TextView empty;
     private HttpURLConnector conn;
     private int emptySpace;
+    private Handler handler;
 
     public emptySpace(TextView empty){
         this.empty = empty;
+        handler = new Handler();
     }
 
     public void run(){
-        while(!MainActivity.onEmptyThread) {
-            //conn = new HttpURLConnector("여석 url");
-            //String emptyStr = conn.connect();
-            //JSONParser parser = new JSONParser(emptyStr);
-            //emptySpace = parser.getEmpty_space();
+        while(MainActivity.onEmptyThread) {
+            conn = new HttpURLConnector("empty_places_count");
+            conn.start();
+            try{
+                conn.join();
+            } catch(InterruptedException e){}
+            String emptyStr = conn.getResult();
+            JSONParser parser = new JSONParser(emptyStr);
+            parser.parser();
+            emptySpace = parser.getEmpty_space();
 
-            Handler handler = new Handler();
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    empty.setText(emptySpace + "");
+                    empty.setText("현재 : " + emptySpace);
                 }
             });
             try{

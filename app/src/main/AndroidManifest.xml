@@ -33,10 +33,6 @@
         <activity android:name=".MyLogActivity"
             android:screenOrientation="portrait"/>
 
-        <service
-            android:name=".MyParkingService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>

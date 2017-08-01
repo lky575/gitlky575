@@ -65,6 +65,11 @@ public class JSONParser {
                 isCarNumbering = true;
             }
 
+            if(json.has("empty_places_count")){
+                empty_space = json.getInt("empty_places_count");
+            }
+
+
         } catch(JSONException e) {
             e.printStackTrace();
         }

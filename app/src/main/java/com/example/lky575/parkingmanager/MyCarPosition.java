@@ -8,11 +8,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class MyCarPosition extends AppCompatActivity {
 
     private EditText numberText;
     private SharedPreferences pref;
     private HttpURLConnector conn;
+    private String encode_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,12 @@ public class MyCarPosition extends AppCompatActivity {
         ProgressDialogTask task = new ProgressDialogTask(MyCarPosition.this);
         task.execute();
         String number = numberText.getText().toString();
-        conn = new HttpURLConnector("cars/" + number);
+
+        try{
+            encode_url = URLEncoder.encode(number,"utf-8");
+        } catch(UnsupportedEncodingException e){}
+
+        conn = new HttpURLConnector("cars/" + encode_url);
         conn.start();
         try{
             conn.join();

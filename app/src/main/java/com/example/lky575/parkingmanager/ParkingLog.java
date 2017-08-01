@@ -22,12 +22,13 @@ public class ParkingLog extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // void execSQL(String sql) : SELECT 명령을 제외한 모든 SQL 문장을 실행한다.
-        db.execSQL("CREATE TABLE PARKING_LOG(no INTEGER PRIMARY KEY AUTOINCREMENT, car_number TEXT, start_at TEXT, end_at TEXT);");    }
+        db.execSQL("CREATE TABLE PARKING_LOG(_id INTEGER PRIMARY KEY AUTOINCREMENT, car_number TEXT, entered_at TEXT, exited_at TEXT);");    }
 
     // onUpgrade() 메소드는 데이터베이스는 존재하지만 버전이 다른경우 호출된다.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS PARKING_LOG");
+        onCreate(db);
     }
 
     public void setLog(ArrayList<Integer> entered_array,ArrayList<Integer> ended_array, String car_number){
@@ -36,10 +37,10 @@ public class ParkingLog extends SQLiteOpenHelper {
             String pattern = "yyyy-MM-dd HH:mm";
             SimpleDateFormat formatter = new SimpleDateFormat(pattern);
             String entered_date = formatter.format(entered_array.get(i));
-            String ended_date = formatter.format(ended_array.get(i));
+            String exited_date = formatter.format(ended_array.get(i));
 
             db.execSQL("insert into PARKING_LOG values(null, " + car_number + ", "
-                    + entered_date + ", " + ended_date + ");");
+                    + entered_date + ", " + exited_date + ");");
 
             // (null, '88허1234', '2017-06-11 11:33', '2017-06-11 12:33');
         }
@@ -54,26 +55,4 @@ public class ParkingLog extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
     }
-
-
-
-    // 리스트뷰 형식으로 전환
-/*    public String PrintData() {
-        SQLiteDatabase db = getReadableDatabase();
-        String dbData = "";
-        // Cursor rawQuery(String sql, String[] selectionArgs) : SELECT 쿼리를 실행할때 사용한다.
-        // Cursor 객체는 쿼리에 의하여 생성된 행들을 가리키고, 결과를 순회하여 읽는데 유용하다.
-        Cursor cursor = db.rawQuery("select * from PARKING_LOG", null);
-        while(cursor.moveToNext()){
-            dbData += "입차 : "
-                    + cursor.getString(1) // start_at 행
-                    + "  출차 : "
-                    + cursor.getString(2) // end_at 행
-                    + "\n";
-        }
-
-        return dbData;
-    }*/
-
-
 }

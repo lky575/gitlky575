@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ public class Config extends AppCompatActivity {
 
     private SharedPreferences pref;
     private TextView numberText, setNumberText;
-    private LinearLayout container;
     private String carNumber;
 
     @Override
@@ -40,13 +38,10 @@ public class Config extends AppCompatActivity {
     }
 
     public void onSettingButtonClicked(View v){
-
-
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("CarNumber",numberText.getText().toString());
         editor.commit();
         Toast.makeText(getApplicationContext(),"차량 번호가 등록 되었습니다.",Toast.LENGTH_SHORT).show();
-
     }
 
     public void onbackButtonClicked(View v){
@@ -69,8 +64,9 @@ public class Config extends AppCompatActivity {
         startActivity(inquiry_call);
     }
 
+
     public void oncashButtonClicked(View v){
-        // 충전용 다이얼로그
+        // 충전용 다이얼로그 (서버 연동해서 변경 예정)
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View textEntryView = layoutInflater.inflate(R.layout.cash_input_dialog,null);
         TextView currentCash = (TextView) textEntryView.findViewById(R.id.currentCash);

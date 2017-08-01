@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by lky575 on 2017-07-14.
@@ -25,8 +24,7 @@ public class HttpURLConnector extends Thread{
 
     public void run(){
         try {
-            String encode_url = URLEncoder.encode(url_str,"utf-8");
-            URL url = new URL("http://13.124.74.249:3000/" + encode_url);
+            URL url = new URL("http://13.124.74.249:3000/" + url_str);
 
             conn = (HttpURLConnection) url.openConnection();
 

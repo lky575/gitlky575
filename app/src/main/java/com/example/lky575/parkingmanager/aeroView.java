@@ -17,15 +17,9 @@ public class aeroView extends AppCompatActivity {
 
         aeroView = (WebView) findViewById(R.id.aeroView);
         aeroView.setWebViewClient(new WebViewClient());
-        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/1");
+        aeroView.loadUrl("http://13.124.74.249:3000/places/dashboard?floor=1");
     }
 
-    public void onfloor1ButtonClicked(View v){
-        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/1");
-    }
-    public void onfloor2ButtonClicked(View v){
-        aeroView.loadUrl("http://13.124.74.249:3000/aeroview/2");
-    }
     public void onbackButtonClicked(View v){
         finish();
     }

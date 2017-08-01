@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.StringTokenizer;
@@ -20,6 +22,7 @@ public class CalculateFare extends AppCompatActivity {
     private int startHour, startMinute, endHour, endMinute;
     private ProgressDialogTask task;
     private HttpURLConnector conn;
+    private String encode_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,11 @@ public class CalculateFare extends AppCompatActivity {
         if(!carNumber.equals("")){
             task = new ProgressDialogTask(CalculateFare.this);
             task.execute();
-            conn = new HttpURLConnector("cars/" + carNumber);
+            try{
+                encode_url = URLEncoder.encode(carNumber,"utf-8");
+            } catch(UnsupportedEncodingException e){}
+
+            conn = new HttpURLConnector("cars/" + encode_url);
             conn.start();
             try{
                 conn.join();
@@ -63,7 +70,11 @@ public class CalculateFare extends AppCompatActivity {
     public void onsearchButtonClicked(View v){
         task = new ProgressDialogTask(CalculateFare.this);
         task.execute();
-        conn = new HttpURLConnector("cars/" + edtCarNumber.getText().toString());
+        try{
+            encode_url = URLEncoder.encode(edtCarNumber.getText().toString(),"utf-8");
+        } catch(UnsupportedEncodingException e){}
+
+        conn = new HttpURLConnector("cars/" + encode_url);
         conn.start();
         try{
             conn.join();
