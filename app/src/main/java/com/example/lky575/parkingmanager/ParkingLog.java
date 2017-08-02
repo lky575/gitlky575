@@ -55,4 +55,20 @@ public class ParkingLog extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
     }
+
+    public Cursor search(int year, int month){
+        SQLiteDatabase db = getReadableDatabase();
+        String month_str;
+        String year_str = Integer.toString(year);
+        if(month < 10){
+            month_str = "0";
+            month_str += Integer.toString(month);
+        }
+        else{
+            month_str = Integer.toString(month);
+        }
+        String[] args = {year_str, month_str};
+        Cursor cursor = db.rawQuery("select * from PARKING_LOG where substr(entered_at, 1, 4) = ? and substr(entered_at, 6, 2) = ?;", args);
+        return cursor;
+    }
 }
