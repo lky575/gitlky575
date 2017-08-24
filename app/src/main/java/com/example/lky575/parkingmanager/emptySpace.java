@@ -10,26 +10,19 @@ import android.widget.TextView;
 
 public class emptySpace extends Thread {
     private TextView empty;
-    private HttpURLConnector conn;
     private int emptySpace;
     private Handler handler;
+    private getDBdata getDBdata;
 
     public emptySpace(TextView empty){
         this.empty = empty;
         handler = new Handler();
+        getDBdata = new getDBdata();
     }
 
     public void run(){
         while(MainActivity.onEmptyThread) {
-            conn = new HttpURLConnector("empty_places_count");
-            conn.start();
-            try{
-                conn.join();
-            } catch(InterruptedException e){}
-            String emptyStr = conn.getResult();
-            JSONParser parser = new JSONParser(emptyStr);
-            parser.parser();
-            emptySpace = parser.getEmpty_space();
+            emptySpace = getDBdata.getEmpty_Space();
 
             handler.post(new Runnable() {
                 @Override

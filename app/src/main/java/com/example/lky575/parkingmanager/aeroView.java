@@ -16,7 +16,9 @@ public class aeroView extends AppCompatActivity {
         setContentView(R.layout.activity_aero_view);
 
         aeroView = (WebView) findViewById(R.id.aeroView);
+        // 새로운 웹뷰 클라이언트를 지정해주어야 새창이 뜨지 않는다.
         aeroView.setWebViewClient(new WebViewClient());
+        // 서버에서 조감도를 띄워주는 url 을 웹뷰에 출력한다.
         aeroView.loadUrl("http://13.124.74.249:3000/places/dashboard?floor=1");
     }
 

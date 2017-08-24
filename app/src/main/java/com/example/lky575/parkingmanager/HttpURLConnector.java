@@ -36,6 +36,8 @@ public class HttpURLConnector extends Thread{
 
             else{
                 Log.d("conn","connect error");
+                result = null;
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +58,8 @@ public class HttpURLConnector extends Thread{
                 reader.close();
             }
 
-            if (res_code == 422) {
+            // 'cars/차량번호' 에서 해당 차량번호에 대한 정보가 없는 경우.
+            else if (res_code == 422) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                 String line = null;
                 while (true) {
@@ -66,6 +69,11 @@ public class HttpURLConnector extends Thread{
                     sb.append(line + "\n");
                 }
                 reader.close();
+            }
+
+            else{
+                Log.d("conn", "error : " + res_code);
+                return;
             }
 
         } catch (IOException e) {

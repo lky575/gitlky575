@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences pref;
     protected static boolean onEmptyThread = false;
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("hasVisited",true);
             editor.commit();
+
         }
     }
 

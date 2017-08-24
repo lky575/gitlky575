@@ -36,27 +36,21 @@ public class ParkingLog extends SQLiteOpenHelper {
         for(int i = 0 ; i < entered_array.size(); i++){
             String pattern = "yyyy-MM-dd HH:mm";
             SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-            String entered_date = formatter.format(entered_array.get(i));
-            String exited_date = formatter.format(ended_array.get(i));
+            String entered_date = formatter.format(entered_array.get(i) * 1000L);
+            String exited_date = formatter.format(ended_array.get(i) * 1000L);
 
-            db.execSQL("insert into PARKING_LOG values(null, " + car_number + ", "
-                    + entered_date + ", " + exited_date + ");");
-
-            // (null, '88허1234', '2017-06-11 11:33', '2017-06-11 12:33');
+            db.execSQL("insert into PARKING_LOG values(null, '" + car_number + "', '"
+                    + entered_date + "', '" + exited_date + "');");
         }
     }
 
     public Cursor getLog(String car_number){
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("select * from PARKING_LOG where car_number = " + car_number + ";", null);
+        Cursor cursor = db.rawQuery("select * from PARKING_LOG where car_number = '" + car_number + "' ORDER BY entered_at desc;", null);
+        return cursor;
     }
 
-    public void execQuery(String query) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(query);
-    }
-
-    public Cursor search(int year, int month){
+    public Cursor search(int year, int month, String carNumber){
         SQLiteDatabase db = getReadableDatabase();
         String month_str;
         String year_str = Integer.toString(year);
@@ -67,8 +61,9 @@ public class ParkingLog extends SQLiteOpenHelper {
         else{
             month_str = Integer.toString(month);
         }
-        String[] args = {year_str, month_str};
-        Cursor cursor = db.rawQuery("select * from PARKING_LOG where substr(entered_at, 1, 4) = ? and substr(entered_at, 6, 2) = ?;", args);
+        String[] args = {carNumber, year_str, month_str};
+        Cursor cursor = db.rawQuery("select * from PARKING_LOG where car_number = ? AND substr(entered_at, 1, 4) = ? and substr(entered_at, 6, 2) = ? ORDER BY entered_at desc;", args);
+
         return cursor;
     }
 }
