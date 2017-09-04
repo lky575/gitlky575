@@ -7,64 +7,69 @@
     android:background="@drawable/mainbackground"
     tools:context="com.example.lky575.parkingmanager.MyCarPosition">
 
-    <View
-        android:layout_weight="0.2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
     <LinearLayout
-        android:id="@+id/searchlayout"
+        android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:background="#666666">
 
-        <View
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
 
-        <ImageView
-            android:id="@+id/Txt_carNumber"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@drawable/carnumber" />
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
 
-        <View
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/Txt_carNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/car" />
 
-        <EditText
-            android:background="@drawable/emptystroke"
-            android:id="@+id/Edt_carNumber"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:ems="8"
-            android:hint="차량 번호를 입력."
-            android:inputType="text"
-            android:textColor="#ff000000"
-            android:textColorHint="#ff777777" />
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
 
-        <View
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            <EditText
+                android:background="#ffffff"
+                android:id="@+id/Edt_carNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:ems="8"
+                android:hint="차량 번호를 입력."
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#ff777777" />
 
-        <ImageView
-            android:id="@+id/searchButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/searchbutton"
-            android:onClick="onsearchButtonClicked"/>
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
 
-        <View
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/searchButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@drawable/search"
+                android:onClick="onsearchButtonClicked"/>
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

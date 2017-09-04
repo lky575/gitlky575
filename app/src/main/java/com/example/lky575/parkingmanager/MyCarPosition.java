@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -61,10 +60,12 @@ public class MyCarPosition extends AppCompatActivity {
     public void setLayoutAttrs(){
         EditText Edt_carNumber = (EditText) findViewById(R.id.Edt_carNumber);
         LinearLayout viewLayout = (LinearLayout) findViewById(R.id.viewLayout);
+        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.searchLayout);
         ImageView defaultView = (ImageView) findViewById(R.id.defaultView);
         WebView positionView = (WebView) findViewById(R.id.positionView);
 
         LinearLayout.LayoutParams viewLayoutParams = (LinearLayout.LayoutParams) viewLayout.getLayoutParams();
+        LinearLayout.LayoutParams searchLayoutParams = (LinearLayout.LayoutParams) searchLayout.getLayoutParams();
         ViewGroup.MarginLayoutParams defaultViewParams = (ViewGroup.MarginLayoutParams) defaultView.getLayoutParams();
         ViewGroup.MarginLayoutParams positionViewParams = (ViewGroup.MarginLayoutParams) positionView.getLayoutParams();
 
@@ -72,10 +73,10 @@ public class MyCarPosition extends AppCompatActivity {
         int widthPixels = metrics.widthPixels;
         int margin = widthPixels / 50;
 
-        Log.d("conn", "widthPixels : " + widthPixels);
         Edt_carNumber.setTextSize(widthPixels / 50);
         Edt_carNumber.setPadding(margin, 0, 0, 0);
         viewLayoutParams.setMargins(margin, margin, margin, margin);
+        searchLayoutParams.setMargins(margin, margin, margin, margin);
         defaultViewParams.setMargins(margin * 5, margin * 10, margin * 5, margin * 10);
         positionViewParams.setMargins(margin, margin, margin, margin);
     }
