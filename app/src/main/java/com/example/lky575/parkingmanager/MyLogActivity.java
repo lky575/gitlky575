@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
@@ -23,11 +24,17 @@ public class MyLogActivity extends AppCompatActivity {
     private ParkingLog mylog;
     private ListView logView;
     private String carNumber;
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_log);
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int widthPixels = metrics.widthPixels;
+        textSize = widthPixels / 50;
+
         // SQLite 에서 등록된 차량 번호에 대한 입출입 로그를 출력할 리스트뷰
         logView = (ListView) findViewById(listView);
         SharedPreferences pref = getSharedPreferences("sign", Context.MODE_PRIVATE);
@@ -44,6 +51,7 @@ public class MyLogActivity extends AppCompatActivity {
             // SQLite 에 저장된 로그중 해당 차량에 대한 로그들만 listView 에 출력한다.
             Cursor cursor = mylog.getLog(carNumber);
             LogAdapter logList = new LogAdapter(MyLogActivity.this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            logList.setTextSize(widthPixels / 50);
             logView.setAdapter(logList);
         }
         else{
@@ -71,8 +79,9 @@ public class MyLogActivity extends AppCompatActivity {
                 if(cursor.getCount() == 0){
                     Toast.makeText(getApplicationContext(),"로그가 없습니다.",Toast.LENGTH_SHORT).show();
                 }
-                LogAdapter listViewAdapter = new LogAdapter(MyLogActivity.this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-                logView.setAdapter(listViewAdapter);
+                LogAdapter logList = new LogAdapter(MyLogActivity.this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                logList.setTextSize(textSize);
+                logView.setAdapter(logList);
             }
         }, year, month, day);
 
@@ -120,7 +129,10 @@ public class MyLogActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    public void onbackButtonClicked(View v){
-        finish();
+    public void onrefreshButtonClicked(View v){
+        Cursor cursor = mylog.getLog(carNumber);
+        LogAdapter logList = new LogAdapter(MyLogActivity.this, cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        logList.setTextSize(textSize);
+        logView.setAdapter(logList);
     }
 }

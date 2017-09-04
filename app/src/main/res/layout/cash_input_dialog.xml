@@ -8,7 +8,7 @@
         android:id="@+id/currentCash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp" />
+        android:textColor="#00ff00" />
 
     <EditText
         android:id="@+id/cashInputText"
@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="금액"
-        android:inputType="number"
-        android:textSize="30dp" />
+        android:textColor="#ff6600"
+        android:textColorHint="#666666"
+        android:inputType="number" />
 </LinearLayout>

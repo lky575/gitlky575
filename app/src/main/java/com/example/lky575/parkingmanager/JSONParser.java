@@ -96,6 +96,7 @@ public class JSONParser {
             JSONObject json = new JSONObject(dbStr);
             JSONArray jsonArray = json.getJSONArray("entering_logs");
             for(int i = last_index ; i < jsonArray.length(); i++){
+                Log.d("conn", "parser_array() 실행중... jsonArray.length() : " + jsonArray.length() + "중 현재 #" + i);
                 JSONObject result = jsonArray.getJSONObject(i);
                 entered_array.add(result.getInt("entered_at"));
                 exited_array.add(result.getInt("exited_at"));

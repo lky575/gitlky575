@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +24,9 @@ public class Config extends AppCompatActivity {
     private SharedPreferences pref;
     private TextView numberText, setNumberText;
     private String carNumber;
-    private CheckBox service_on;
     private Intent serviceIntent;
+    private ImageView alarmOn, alarmOff;
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,39 +37,59 @@ public class Config extends AppCompatActivity {
 
         numberText = (TextView) findViewById(R.id.numberText);
         setNumberText = (TextView) findViewById(R.id.setNumberText);
-        service_on = (CheckBox) findViewById(R.id.checkBox);
+        alarmOn = (ImageView) findViewById(R.id.alarmOn);
+        alarmOff = (ImageView) findViewById(R.id.alarmOff);
 
-        service_on.setChecked(pref.getBoolean("service_on",false));
-        service_on.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CheckBox)v).isChecked()){
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean("service_on", true);
-                    editor.commit();
-                    startService(serviceIntent);
-                }
-                else{
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean("service_on", false);
-                    editor.commit();
-                    stopService(serviceIntent);
-                }
-            }
-        });
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int widthPixels = metrics.widthPixels;
+        textSize = widthPixels / 50;
+        numberText.setTextSize(textSize);
+        numberText.setPadding(textSize ,0, 0, 0);
+        setNumberText.setTextSize(textSize);
+        setNumberText.setPadding(0, 0, 0, textSize * 4);
+
+        if(pref.getBoolean("service_on", false)){
+            alarmOn.setVisibility(View.VISIBLE);
+            alarmOff.setVisibility(View.GONE);
+        }
+
+        else{
+            alarmOn.setVisibility(View.GONE);
+            alarmOff.setVisibility(View.VISIBLE);
+        }
 
         setNumberText.setVisibility(View.INVISIBLE);
         carNumber = pref.getString("CarNumber","");
         // 차량번호가 등록되어 있는 경우
         if(!carNumber.equals("")){
             setNumberText.setVisibility(View.VISIBLE);
-            setNumberText.setText("등록된 차량 번호 : " + carNumber);
+            setNumberText.setText("등록 번호\n\n" + carNumber);
         }
 
         if(getIntent().getBooleanExtra("NFmessage", false)){
             oncashButtonClicked(null);
         }
 
+    }
+
+    public void onAlarmOnButtonClicked(View v){
+        Log.d("conn", "onAlarmOnButtonClicked() 호출됨");
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("service_on", true);
+        editor.commit();
+        alarmOn.setVisibility(View.VISIBLE);
+        alarmOff.setVisibility(View.GONE);
+        startService(serviceIntent);
+    }
+
+    public void onAlarmOffButtonClicked(View v){
+        Log.d("conn", "onAlarmOffButtonClicked() 호출됨");
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("service_on", false);
+        editor.commit();
+        alarmOn.setVisibility(View.GONE);
+        alarmOff.setVisibility(View.VISIBLE);
+        stopService(serviceIntent);
     }
 
     public void onSettingButtonClicked(View v){
@@ -77,15 +100,12 @@ public class Config extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),"차량 번호가 등록 되었습니다.",Toast.LENGTH_SHORT).show();
 
         setNumberText.setVisibility(View.VISIBLE);
-        setNumberText.setText("등록된 차량 번호 : " + carNumber);
-    }
-
-    public void onbackButtonClicked(View v){
-        finish();
+        setNumberText.setText("등록 번호\n\n" + pref.getString("CarNumber",""));
     }
 
     public void onlogButtonClicked(View v){
         // 로그 확인 버튼
+        carNumber = pref.getString("CarNumber", "");
         if(carNumber.equals("")){
             Toast.makeText(getApplicationContext(),"등록된 차량이 없습니다.",Toast.LENGTH_SHORT).show();
         }
@@ -96,30 +116,40 @@ public class Config extends AppCompatActivity {
     }
 
     public void oninquiryButtonClicked(View v){
-        Intent inquiry_call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-5049-8654"));
+        Intent inquiry_call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-0000-0000"));
         startActivity(inquiry_call);
     }
 
 
     public void oncashButtonClicked(View v){
         // 충전용 다이얼로그
+        carNumber = pref.getString("CarNumber", "");
         if(carNumber == "") {
             Toast.makeText(getApplicationContext(), "차량 등록부터 해주세요.", Toast.LENGTH_SHORT).show();
         }
         else{
             int virtual_money = new getDBdata().getMoney(carNumber);
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View textEntryView = layoutInflater.inflate(R.layout.cash_input_dialog,null);
-            TextView currentCash = (TextView) textEntryView.findViewById(R.id.currentCash);
-            currentCash.setText("현재 충전된 금액 : " + virtual_money + "원");
+            View textEntryView = layoutInflater.inflate(R.layout.cash_input_dialog,null);
+
+            final TextView currentMoney = (TextView) textEntryView.findViewById(R.id.currentCash);
+            final EditText chargeMoney = (EditText) textEntryView.findViewById(R.id.cashInputText);
+            chargeMoney.setTextSize(textSize);
+            currentMoney.setTextSize(textSize);
+
+            currentMoney.setText(" 현재 충전된 금액 : " + virtual_money + "원");
             AlertDialog.Builder cashInputDialogBuilder = new AlertDialog.Builder(Config.this);
-            cashInputDialogBuilder.setMessage("충전할 금액을 입력하세요.");
+            cashInputDialogBuilder.setTitle("충전할 금액을 입력하세요.");
             cashInputDialogBuilder.setView(textEntryView);
+            cashInputDialogBuilder.setIcon(R.drawable.coin);
             cashInputDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    EditText testText = (EditText) textEntryView.findViewById(R.id.cashInputText);
-                    int inputCash = Integer.parseInt(testText.getText().toString());
+                    int inputCash = 0;
+                    try{
+                        inputCash = Integer.parseInt(chargeMoney.getText().toString());
+                    } catch(NumberFormatException e){}
+
                     OutputStreamConnector conn = new OutputStreamConnector(carNumber, inputCash);
                     conn.start();
                     try{

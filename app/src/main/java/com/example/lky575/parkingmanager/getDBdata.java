@@ -75,7 +75,6 @@ public class getDBdata {
         } catch (InterruptedException e) {
         }
         String result = conn.getResult();
-        Log.d("conn", result);
         if (result != null) {
             JSONParser parser = new JSONParser(result);
             parser.parser();

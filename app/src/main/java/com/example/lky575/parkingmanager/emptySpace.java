@@ -1,5 +1,6 @@
 package com.example.lky575.parkingmanager;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,7 +28,14 @@ public class emptySpace extends Thread {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    empty.setText("현재 : " + emptySpace);
+                    if (emptySpace >= MainActivity.TOTAL_SPACE / 2)
+                        empty.setTextColor(Color.rgb(0, 255, 0));
+                    else if(emptySpace == 0)
+                        empty.setTextColor(Color.rgb(255, 0, 0));
+                    else
+                        empty.setTextColor(Color.rgb(255, 187, 0));
+
+                    empty.setText("남은 공간\n" + emptySpace);
                 }
             });
             try{

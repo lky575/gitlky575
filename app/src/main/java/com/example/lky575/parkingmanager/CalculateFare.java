@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,13 +23,14 @@ public class CalculateFare extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculate_fare);
 
-        edtCarNumber = (EditText) findViewById(R.id.EdtCarNumber);
-        edtStartHour = (EditText) findViewById(R.id.EdtstartHour);
-        edtStartMinute = (EditText) findViewById(R.id.EdtstartMinute);
-        edtEndHour = (EditText) findViewById(R.id.EdtendHour);
-        edtEndMinute = (EditText) findViewById(R.id.EdtendMinute);
+        edtCarNumber = (EditText) findViewById(R.id.Edt_carNumber);
+        edtStartHour = (EditText) findViewById(R.id.Edt_startHour);
+        edtStartMinute = (EditText) findViewById(R.id.Edt_startMinute);
+        edtEndHour = (EditText) findViewById(R.id.Edt_endHour);
+        edtEndMinute = (EditText) findViewById(R.id.Edt_endMinute);
         fareText = (TextView) findViewById(R.id.Fare);
 
+        setTextAttrs();
         SharedPreferences pref = getSharedPreferences("sign", Activity.MODE_PRIVATE);
         String carNumber = pref.getString("CarNumber","");
 
@@ -88,16 +90,12 @@ public class CalculateFare extends AppCompatActivity {
                         gap_H++;
                     // 시간당 2천원 계산
                     int fare = gap_H * 2000;
-                    fareText.setText("요금 : " + fare + "원");
+                    fareText.setText(fare + "원");
                 }
             }
         } catch(Exception e){
             Toast.makeText(getApplicationContext(),"시간을 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void onbackButtonClicked(View v){
-        finish();
     }
 
     public void getTime(int millisec){
@@ -116,5 +114,25 @@ public class CalculateFare extends AppCompatActivity {
         Calendar now = Calendar.getInstance();
         edtEndHour.setText(String.valueOf(now.get(Calendar.HOUR_OF_DAY)));
         edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
+    }
+
+    public void setTextAttrs(){
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int widthPixels = metrics.widthPixels;
+        int margin = widthPixels / 50;
+
+        edtCarNumber.setPadding(margin * 2, 0, 0, 0);
+        edtStartHour.setPadding(0, 0, margin, 0);
+        edtStartMinute.setPadding(0, 0, margin, 0);
+        edtEndHour.setPadding(0, 0, margin, 0);
+        edtEndMinute.setPadding(0, 0, margin, 0);
+        fareText.setPadding(0, 0, margin, 0);
+
+        edtCarNumber.setTextSize(margin);
+        edtStartHour.setTextSize(margin);
+        edtStartMinute.setTextSize(margin);
+        edtEndHour.setTextSize(margin);
+        edtEndMinute.setTextSize(margin);
+        fareText.setTextSize(margin * 2);
     }
 }
