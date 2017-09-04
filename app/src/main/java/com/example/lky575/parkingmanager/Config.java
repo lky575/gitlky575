@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,17 +42,7 @@ public class Config extends AppCompatActivity {
         alarmOn = (ImageView) findViewById(R.id.alarmOn);
         alarmOff = (ImageView) findViewById(R.id.alarmOff);
 
-        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.searchLayout);
-        LinearLayout.MarginLayoutParams searchLayoutParams = (LinearLayout.MarginLayoutParams) searchLayout.getLayoutParams();
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int widthPixels = metrics.widthPixels;
-        int margin = widthPixels / 50;
-        textSize = widthPixels / 50;
-        numberText.setTextSize(textSize);
-        numberText.setPadding(textSize ,0, 0, 0);
-        setNumberText.setTextSize(textSize);
-        setNumberText.setPadding(0, 0, 0, textSize * 4);
-        searchLayoutParams.setMargins(margin, margin, margin, margin);
+        setLayoutAttrs();
 
         if(pref.getBoolean("service_on", false)){
             alarmOn.setVisibility(View.VISIBLE);
@@ -75,6 +66,24 @@ public class Config extends AppCompatActivity {
             oncashButtonClicked(null);
         }
 
+    }
+
+    public void setLayoutAttrs(){
+        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.searchLayout);
+        FrameLayout alarmLayout = (FrameLayout) findViewById(R.id.alarmLayout);
+        LinearLayout.MarginLayoutParams searchLayoutParams = (LinearLayout.MarginLayoutParams) searchLayout.getLayoutParams();
+        LinearLayout.MarginLayoutParams alarmLayoutParams = (LinearLayout.MarginLayoutParams) alarmLayout.getLayoutParams();
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int widthPixels = metrics.widthPixels;
+        int margin = widthPixels / 50;
+        textSize = widthPixels / 50;
+        numberText.setTextSize(textSize);
+        numberText.setPadding(textSize ,0, 0, 0);
+        setNumberText.setTextSize(textSize);
+        setNumberText.setPadding(0, 0, 0, textSize * 4);
+        searchLayoutParams.setMargins(margin, margin, margin, margin);
+        alarmLayoutParams.setMargins(margin, margin, margin, margin);
     }
 
     public void onAlarmOnButtonClicked(View v){
