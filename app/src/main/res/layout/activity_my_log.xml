@@ -58,21 +58,11 @@
         android:layout_weight="7"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/solidstroke">
-
-        <View
-            android:layout_weight="0.5"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
+        android:background="@drawable/blackboard">
 
         <ListView
             android:id="@+id/listView"
             android:layout_weight="9"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-
-        <View
-            android:layout_weight="0.5"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
 

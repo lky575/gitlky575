@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -33,10 +34,13 @@ public class MyLogActivity extends AppCompatActivity {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int widthPixels = metrics.widthPixels;
+        int margin = widthPixels / 25;
         textSize = widthPixels / 50;
 
         // SQLite 에서 등록된 차량 번호에 대한 입출입 로그를 출력할 리스트뷰
         logView = (ListView) findViewById(listView);
+        ViewGroup.MarginLayoutParams logViewParams = (ViewGroup.MarginLayoutParams) logView.getLayoutParams();
+        logViewParams.setMargins(margin, margin * 2, margin, margin * 2);
         SharedPreferences pref = getSharedPreferences("sign", Context.MODE_PRIVATE);
         carNumber = pref.getString("CarNumber", "");
 
