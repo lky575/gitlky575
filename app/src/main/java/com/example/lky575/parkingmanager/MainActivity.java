@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -86,8 +87,14 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup.MarginLayoutParams mainLogoParams = (ViewGroup.MarginLayoutParams) mainLogo.getLayoutParams();
         int margin = widthPixels / 50;
         mainLogoParams.setMargins(margin, margin, margin, margin);
-        currentText.setTextSize(widthPixels / 50);
+        currentText.setTextSize(widthPixels / 60);
+
+        float currentTextSize = currentText.getTextSize();
+        Log.d("conn", "widthPixels : " + widthPixels);
+        Log.d("conn", "margin : " + margin);
+        Log.d("conn", "currentText_textSize : " + currentTextSize);
         copyright.setTextSize(widthPixels / 100);
+        Log.d("conn", "copyright_textSize : " + copyright.getTextSize());
     }
 
     public void onParkingButtonClicked(View v){ // 조감도 버튼

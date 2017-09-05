@@ -151,6 +151,34 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
 
+            <EditText
+                android:id="@+id/Edt_startSecond"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#ffffff"
+                android:ems="2"
+                android:inputType="number"
+                android:textColor="#ff000000"
+                android:gravity="right"/>
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/Txt_startSecond"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@drawable/second" />
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -222,11 +250,39 @@
                 android:layout_height="match_parent" />
 
             <ImageView
-                android:id="@+id/Txt_EndMinute"
+                android:id="@+id/Txt_endMinute"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="@drawable/minute" />
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/Edt_endSecond"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#ffffff"
+                android:ems="2"
+                android:inputType="number"
+                android:textColor="#ff000000"
+                android:gravity="right"/>
+
+            <View
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/Txt_endSecond"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@drawable/second" />
 
             <View
                 android:layout_weight="0.5"
@@ -293,7 +349,7 @@
                 android:layout_height="0dp">
 
                 <View
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
 
@@ -310,10 +366,14 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|right"
                     android:text="0원"
+                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:focusable="true"
                     android:textColor="#5C2E14" />
 
                 <View
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
 

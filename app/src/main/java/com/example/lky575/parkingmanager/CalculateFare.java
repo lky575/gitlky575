@@ -15,9 +15,9 @@ import java.util.Calendar;
 
 public class CalculateFare extends AppCompatActivity {
 
-    private EditText edtCarNumber, edtStartHour, edtStartMinute, edtEndHour, edtEndMinute;
+    private EditText edtCarNumber, edtStartHour, edtStartMinute, edtStartSecond, edtEndHour, edtEndMinute , edtEndSecond;
     private TextView fareText;
-    private int startHour, startMinute, endHour, endMinute;
+    private int startHour, startMinute, startSecond, endHour, endMinute, endSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,10 @@ public class CalculateFare extends AppCompatActivity {
         edtCarNumber = (EditText) findViewById(R.id.Edt_carNumber);
         edtStartHour = (EditText) findViewById(R.id.Edt_startHour);
         edtStartMinute = (EditText) findViewById(R.id.Edt_startMinute);
+        edtStartSecond = (EditText) findViewById(R.id.Edt_startSecond);
         edtEndHour = (EditText) findViewById(R.id.Edt_endHour);
         edtEndMinute = (EditText) findViewById(R.id.Edt_endMinute);
+        edtEndSecond = (EditText) findViewById(R.id.Edt_endSecond);
         fareText = (TextView) findViewById(R.id.Fare);
 
         setLayoutAttrs();
@@ -45,6 +47,7 @@ public class CalculateFare extends AppCompatActivity {
             }
             else{
                 Toast.makeText(getApplicationContext(), "해당 차량을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                setCurrentTime();
             }
         }
     }
@@ -57,15 +60,25 @@ public class CalculateFare extends AppCompatActivity {
         }
         else{
             Toast.makeText(getApplicationContext(), "해당 차량을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            setCurrentTime();
         }
+    }
+
+    public void setCurrentTime(){
+        Calendar now = Calendar.getInstance();
+        edtEndHour.setText(String.valueOf(now.get(Calendar.HOUR_OF_DAY)));
+        edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
+        edtEndSecond.setText(String.valueOf(now.get(Calendar.SECOND)));
     }
 
     public void oncalculateButtonClicked(View v) {
         try {
             startHour = Integer.parseInt(edtStartHour.getText().toString());
             startMinute = Integer.parseInt(edtStartMinute.getText().toString());
+            startSecond = Integer.parseInt(edtStartSecond.getText().toString());
             endHour = Integer.parseInt(edtEndHour.getText().toString());
             endMinute = Integer.parseInt(edtEndMinute.getText().toString());
+            endSecond = Integer.parseInt(edtEndSecond.getText().toString());
 
             // 시간은 24시 이상이 될 수 없다. (24시 = 0시)
             if (startHour >= 24 || endHour >= 24) {
@@ -74,9 +87,15 @@ public class CalculateFare extends AppCompatActivity {
             // 분은 60분 이상이 될 수 없다. (60분 = 0분)
             else if (startMinute >= 60 || endMinute >= 60) {
                 Toast.makeText(getApplicationContext(), "분을 잘못 입력 하셨습니다.", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            // 초는 60초 이상이 될 수 없다. (60초 = 0초)
+            else if (startSecond >= 60 || endSecond >= 60){
+                Toast.makeText(getApplicationContext(), "초를 잘못 입력 하셨습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 int gap_H = endHour - startHour;
                 int gap_M = endMinute - startMinute;
+                int gap_S = endSecond - startSecond;
                 // 입차 시간이 출차 시간보다 늦을 순 없다.
                 if (gap_H < 0) {
                     Toast.makeText(getApplicationContext(), "시간을 잘못 입력 하셨습니다.", Toast.LENGTH_SHORT).show();
@@ -84,13 +103,22 @@ public class CalculateFare extends AppCompatActivity {
                     // 입차 '분' 이 출차 '분' 보다 클 경우
                     if (gap_M < 0) {
                         gap_H--;
+                        if(gap_H < 0){
+                            Toast.makeText(getApplicationContext(), "시간을 잘못 입력 하셨습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         gap_M += 60;
                     }
-                    // 요금 계산은 30분 미만은 버림으로 간주한다.
-                    if (gap_M >= 30)
-                        gap_H++;
-                    // 시간당 2천원 계산
-                    int fare = gap_H * 2000;
+
+                    // 입차 '초' 가 출차 '초' 보다 클 경우
+                    if (gap_S < 0){
+                        gap_M--;
+                        gap_S += 60;
+                    }
+
+                    // 10초당 천원 계산
+                    int totalSecond = (gap_H * 3600 + gap_M * 60 + gap_S) / 10;
+                    int fare = totalSecond * 1000;
                     fareText.setText(fare + "원");
                 }
             }
@@ -107,14 +135,17 @@ public class CalculateFare extends AppCompatActivity {
         time.setTimeInMillis(millisec_l);
         int hour = time.get(Calendar.HOUR_OF_DAY);
         int minute = time.get(Calendar.MINUTE);
+        int second = time.get(Calendar.SECOND);
 
         edtStartHour.setText(Integer.toString(hour));
         edtStartMinute.setText(Integer.toString(minute));
+        edtStartSecond.setText(Integer.toString(second));
 
         // 출차 시간 텍스트는 현재시간으로 자동 완성한다.
         Calendar now = Calendar.getInstance();
         edtEndHour.setText(String.valueOf(now.get(Calendar.HOUR_OF_DAY)));
         edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
+        edtEndSecond.setText(String.valueOf(now.get(Calendar.SECOND)));
     }
 
     public void setLayoutAttrs(){
@@ -140,15 +171,19 @@ public class CalculateFare extends AppCompatActivity {
         edtCarNumber.setPadding(margin * 2, 0, 0, 0);
         edtStartHour.setPadding(0, 0, margin, 0);
         edtStartMinute.setPadding(0, 0, margin, 0);
+        edtStartSecond.setPadding(0, 0, margin, 0);
         edtEndHour.setPadding(0, 0, margin, 0);
         edtEndMinute.setPadding(0, 0, margin, 0);
+        edtEndSecond.setPadding(0, 0, margin, 0);
         fareText.setPadding(0, 0, margin, 0);
 
         edtCarNumber.setTextSize(margin);
         edtStartHour.setTextSize(margin);
         edtStartMinute.setTextSize(margin);
+        edtStartSecond.setTextSize(margin);
         edtEndHour.setTextSize(margin);
         edtEndMinute.setTextSize(margin);
+        edtEndSecond.setTextSize(margin);
         fareText.setTextSize(margin * 2);
     }
 }

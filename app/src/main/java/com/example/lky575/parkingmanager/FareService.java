@@ -45,6 +45,7 @@ public class FareService extends Service {
                 if (carNumber != "") {
                     int virtual_money = new getDBdata().getMoney(carNumber);
                     // 가상머니가 -1 인 경우는 해당 차량이 없거나 서버로부터 데이터를 받지 못하는 상황이다
+                    // 또는 해당 차량
                     if (virtual_money != -1) {
                         if (virtual_money < 2000) {
                             MakeNotification();

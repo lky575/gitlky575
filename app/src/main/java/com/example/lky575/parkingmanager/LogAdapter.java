@@ -24,11 +24,9 @@ public class LogAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView entered_txt = (TextView) view.findViewById(R.id.entered_txt);
         TextView exited_txt = (TextView) view.findViewById(R.id.exited_txt);
-        TextView centerLine = (TextView) view.findViewById(R.id.centerLine);
 
         entered_txt.setTextSize(textSize);
         exited_txt.setTextSize(textSize);
-        centerLine.setTextSize(textSize);
 
         String entered_at = cursor.getString(cursor.getColumnIndex("entered_at"));
         String exited_at = cursor.getString(cursor.getColumnIndex("exited_at"));

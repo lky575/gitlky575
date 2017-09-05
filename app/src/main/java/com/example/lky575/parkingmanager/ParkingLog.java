@@ -34,7 +34,7 @@ public class ParkingLog extends SQLiteOpenHelper {
     public void setLog(ArrayList<Integer> entered_array,ArrayList<Integer> ended_array, String car_number){
         SQLiteDatabase db = getWritableDatabase();
         for(int i = 0 ; i < entered_array.size(); i++){
-            String pattern = "yyyy-MM-dd HH:mm";
+            String pattern = "yyyy-MM-dd HH:mm:ss";
             SimpleDateFormat formatter = new SimpleDateFormat(pattern);
             String entered_date = formatter.format(entered_array.get(i) * 1000L);
             String exited_date = formatter.format(ended_array.get(i) * 1000L);

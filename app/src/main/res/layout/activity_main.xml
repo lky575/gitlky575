@@ -112,14 +112,11 @@
             <TextView
                 android:id="@+id/currentText"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="남은 공간\n0"
-                android:textAlignment="center"
-                android:textColor="#ffff0000"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                android:textColor="#ffff0000" />
 
         </LinearLayout>
 
@@ -146,12 +143,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
             android:text="@string/_2017_pknu_capstone_design_team"
-            android:textAlignment="center"
-            android:textColor="#666666"
-            android:textSize="10sp"
-            tools:ignore="NestedWeights,SmallSp" />
+            android:textColor="#666666" />
     </LinearLayout>
 
     <View

@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,8 @@ public class MyCarPosition extends AppCompatActivity {
         defaultView.setVisibility(View.VISIBLE);
         positionView.setVisibility(View.GONE);
 
+        positionView.setWebViewClient(new WebViewClient());
+
         pref = getSharedPreferences("sign", Activity.MODE_PRIVATE);
         String number = pref.getString("CarNumber","");
         numberText.setText(number);
@@ -47,6 +50,7 @@ public class MyCarPosition extends AppCompatActivity {
         if(position != null){
             defaultView.setVisibility(View.GONE);
             positionView.setVisibility(View.VISIBLE);
+            positionView.loadUrl("http://13.124.74.249:3000/places/dashboard?floor=" + position.floor);
             Toast.makeText(getApplicationContext(), position.floor + "층" + position.zone_name + position.zone_index, Toast.LENGTH_LONG).show();
         }
 

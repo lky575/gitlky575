@@ -12,13 +12,6 @@
         android:textAlignment="center"/>
 
     <TextView
-        android:id="@+id/centerLine"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.01"
-        android:background="#ffff3388"/>
-
-    <TextView
         android:id="@+id/exited_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
