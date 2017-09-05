@@ -44,89 +44,60 @@
             android:orientation="vertical"
             tools:ignore="NestedWeights">
 
-            <LinearLayout
-                android:id="@+id/parkingLayout"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:background="@drawable/parkingbutton"
-                    android:contentDescription=""
-                    android:onClick="onParkingButtonClicked"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
+                android:background="@drawable/parkingbutton"
+                android:contentDescription=""
+                android:onClick="onParkingButtonClicked"
+                tools:ignore="ContentDescription" />
 
             <View
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <LinearLayout
-                android:id="@+id/positionLayout"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:background="@drawable/positionbutton"
-                    android:contentDescription=""
-                    android:onClick="onSearchButtonClicked"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
+                android:background="@drawable/positionbutton"
+                android:contentDescription=""
+                android:onClick="onSearchButtonClicked"
+                tools:ignore="ContentDescription" />
 
             <View
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <LinearLayout
-                android:id="@+id/fareLayout"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:background="@drawable/farebutton"
-                    android:contentDescription=""
-                    android:onClick="onChargeButtonClicked"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
+                android:background="@drawable/farebutton"
+                android:contentDescription=""
+                android:onClick="onChargeButtonClicked"
+                tools:ignore="ContentDescription" />
 
             <View
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <LinearLayout
-                android:id="@+id/configLayout"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:background="@drawable/configbutton"
-                    android:contentDescription=""
-                    android:onClick="onConfigButtonClicked"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
+                android:background="@drawable/configbutton"
+                android:contentDescription=""
+                android:onClick="onConfigButtonClicked"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 

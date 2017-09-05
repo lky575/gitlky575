@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class CalculateFare extends AppCompatActivity {
         edtEndMinute = (EditText) findViewById(R.id.Edt_endMinute);
         fareText = (TextView) findViewById(R.id.Fare);
 
-        setTextAttrs();
+        setLayoutAttrs();
         SharedPreferences pref = getSharedPreferences("sign", Activity.MODE_PRIVATE);
         String carNumber = pref.getString("CarNumber","");
 
@@ -116,10 +117,25 @@ public class CalculateFare extends AppCompatActivity {
         edtEndMinute.setText(String.valueOf(now.get(Calendar.MINUTE)));
     }
 
-    public void setTextAttrs(){
+    public void setLayoutAttrs(){
+        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.searchLayout);
+        LinearLayout enterLayout = (LinearLayout) findViewById(R.id.enterLayout);
+        LinearLayout exitLayout = (LinearLayout) findViewById(R.id.exitLayout);
+        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.buttonLayout);
+
+        LinearLayout.MarginLayoutParams searchLayoutParams = (LinearLayout.MarginLayoutParams) searchLayout.getLayoutParams();
+        LinearLayout.MarginLayoutParams enterLayoutParams = (LinearLayout.MarginLayoutParams) enterLayout.getLayoutParams();
+        LinearLayout.MarginLayoutParams exitLayoutParams = (LinearLayout.MarginLayoutParams) exitLayout.getLayoutParams();
+        LinearLayout.MarginLayoutParams buttonLayoutParams = (LinearLayout.MarginLayoutParams) buttonLayout.getLayoutParams();
+
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int widthPixels = metrics.widthPixels;
         int margin = widthPixels / 50;
+
+        searchLayoutParams.setMargins(margin, margin, margin, margin);
+        enterLayoutParams.setMargins(margin, margin, margin, margin);
+        exitLayoutParams.setMargins(margin, margin, margin, margin);
+        buttonLayoutParams.setMargins(margin, margin, margin, margin);
 
         edtCarNumber.setPadding(margin * 2, 0, 0, 0);
         edtStartHour.setPadding(0, 0, margin, 0);
