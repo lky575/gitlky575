@@ -35,7 +35,7 @@ public class HttpURLConnector extends Thread{
             }
 
             else{
-                Log.d("conn","connect error");
+                Log.d("conn","HttpURLConnector() : connect error");
                 result = null;
                 return;
             }
@@ -72,12 +72,12 @@ public class HttpURLConnector extends Thread{
             }
 
             else{
-                Log.d("conn", "error : " + res_code);
+                Log.d("conn", "HttpURLConnector() : " + res_code);
                 return;
             }
 
         } catch (IOException e) {
-            Log.d("conn","IOException : " + e.getMessage());
+            Log.d("conn","HttpURLConnector() : " + e.getMessage());
             e.printStackTrace();
         }
         result = sb.toString();

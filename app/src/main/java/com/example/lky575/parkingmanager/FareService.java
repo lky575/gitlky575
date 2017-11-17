@@ -49,10 +49,12 @@ public class FareService extends Service {
                     if (virtual_money != -1) {
                         if (virtual_money < 2000) {
                             MakeNotification();
+                            // 알람을 띄우고 요금 충전을 유도
+                            // 요금을 5분동안 충전 하지 않으면 알람을 다시 띄움
                             while(pref.getBoolean("NFmessage", false)){
                                 try{
                                     Log.d("conn", "가상머니 충전중...");
-                                    Thread.sleep(2000);
+                                    Thread.sleep(3000);
                                 } catch(InterruptedException e){}
                                 if(count++ >= 100)
                                     break;

@@ -63,9 +63,7 @@ public class JSONParser {
                 virtual_money = result.getInt("money");
                 try {
                     entered_at = result.getInt("entered_at");
-                } catch(Exception e){
-                    Log.d("conn", "entered_at is null");
-                }
+                } catch(Exception e) {}
 
                 result = json.getJSONObject("place");
                 try {
@@ -74,7 +72,6 @@ public class JSONParser {
                     zone_index = result.getInt("zone_index");
                     isCarNumbering = true;
                 } catch(Exception e){
-                    Log.d("conn", "place is null");
                     isCarNumbering = false;
                 }
             }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ public class MyCarPosition extends AppCompatActivity {
     private EditText numberText;
     private SharedPreferences pref;
     private WebView positionView;
+    private WebSettings mWebSettings;
     private ImageView defaultView;
 
     @Override
@@ -29,6 +31,9 @@ public class MyCarPosition extends AppCompatActivity {
         positionView = (WebView) findViewById(R.id.positionView);
         defaultView = (ImageView) findViewById(R.id.defaultView);
         numberText = (EditText) findViewById(R.id.Edt_carNumber);
+
+        mWebSettings = positionView.getSettings();
+        mWebSettings.setJavaScriptEnabled(true);
 
         defaultView.setVisibility(View.VISIBLE);
         positionView.setVisibility(View.GONE);

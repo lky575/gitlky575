@@ -82,7 +82,7 @@ public class getDBdata {
         }
 
         else {
-            Log.d("conn", "서버로부터 응답이 없습니다.");
+            Log.d("conn", "getMoney() : 서버로부터 응답이 없습니다.");
             return -1;
         }
     }

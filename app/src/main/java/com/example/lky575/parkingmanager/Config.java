@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -87,7 +86,6 @@ public class Config extends AppCompatActivity {
     }
 
     public void onAlarmOnButtonClicked(View v){
-        Log.d("conn", "onAlarmOnButtonClicked() 호출됨");
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("service_on", true);
         editor.commit();
@@ -97,7 +95,6 @@ public class Config extends AppCompatActivity {
     }
 
     public void onAlarmOffButtonClicked(View v){
-        Log.d("conn", "onAlarmOffButtonClicked() 호출됨");
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("service_on", false);
         editor.commit();
@@ -148,6 +145,7 @@ public class Config extends AppCompatActivity {
 
             final TextView currentMoney = (TextView) textEntryView.findViewById(R.id.currentCash);
             final EditText chargeMoney = (EditText) textEntryView.findViewById(R.id.cashInputText);
+
             chargeMoney.setTextSize(textSize);
             currentMoney.setTextSize(textSize);
 

@@ -113,6 +113,8 @@ public class CalculateFare extends AppCompatActivity {
                     // 입차 '초' 가 출차 '초' 보다 클 경우
                     if (gap_S < 0){
                         gap_M--;
+                        if(gap_M < 0)
+                            Toast.makeText(getApplication(), "시간을 잘못 입력 하셨습니다.",Toast.LENGTH_SHORT).show();
                         gap_S += 60;
                     }
 

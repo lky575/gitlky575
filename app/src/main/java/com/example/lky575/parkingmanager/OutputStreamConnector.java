@@ -46,7 +46,6 @@ public class OutputStreamConnector extends Thread {
                 try{
                     jsonObject.put("amount",money);
                 } catch(JSONException e){}
-                Log.d("conn",jsonObject.toString());
                 writer.write(jsonObject.toString());
                 writer.close();
             }
@@ -58,7 +57,7 @@ public class OutputStreamConnector extends Thread {
             }
 
             else{
-                Log.d("conn","res_code : " + res_code + "\nOutputStream 요청 실패");
+                Log.d("conn","OutputStreamConnector : " + res_code + "\nOutputStream 요청 실패");
             }
 
             conn.disconnect();

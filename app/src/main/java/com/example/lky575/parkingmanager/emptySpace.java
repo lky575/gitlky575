@@ -41,7 +41,7 @@ public class emptySpace extends Thread {
             try{
                 Thread.sleep(5000);
             } catch(InterruptedException e){
-                Log.d("Exception","InterruptedException");
+                Log.d("Exception","emptySpace : " + e.getMessage());
             }
         }
     }
